@@ -8,8 +8,6 @@ export default function Header() {
 src='image\Netflix_Logo.png'
     alt='logo' /> 
      </div> 
-
-
      </>
 
 
