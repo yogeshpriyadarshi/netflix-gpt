@@ -7,23 +7,19 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 export default function Login() {
-  const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
+  const dispatch = useDispatch();
+  const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState(null);
   const [emailError, setEmailError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
-  // const auth = getAuth();
 
   const Name = useRef(null);
   const Email = useRef(null);
   const Password = useRef(null);
-
-  // const [Name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -49,7 +45,26 @@ export default function Login() {
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          navigate("/browse");
+          updateProfile(user, {
+            displayName: Name.current.value,
+            photoURL:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAd5avdba8EiOZH8lmV3XshrXx7dKRZvhx-A&s",
+          })
+            .then(() => {
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+            })
+            .catch((error) => {
+              // An error occurred
+              // ...
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -64,7 +79,6 @@ export default function Login() {
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -123,7 +137,7 @@ export default function Login() {
           {passwordError && (
             <p className="text-red-500 font-bold"> {passwordError} </p>
           )}
-          <button className="text-white text-2xl bg-red-700  p-2 m-5 cursor-pointer">
+          <button className="text-white text-2xl bg-red-700  p-2 m-5 cursor-pointer active:bg-blue-500">
             {isLogin ? " Log In" : "Sing UP"}
           </button>
           <div className="flex">
