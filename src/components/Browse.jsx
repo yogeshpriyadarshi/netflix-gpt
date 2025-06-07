@@ -12,6 +12,7 @@ useNowPlay();
 usePopularMovies();
 useTopRated();
 useUpComing();
+
  const movies = useSelector(store => store?.movies?.nowPlay);
  if(!movies) return;
 
