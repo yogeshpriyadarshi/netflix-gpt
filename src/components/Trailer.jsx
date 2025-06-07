@@ -2,13 +2,10 @@ import { useSelector } from "react-redux";
 import useTrailerPlay from "../hooks/useTrailerPlay";
 
 export default function Trailer({ id }) {
-    console.log("id",id);
   useTrailerPlay(id);
   const video = useSelector((store) => store.movies.trailerPlay);
   if (!video) return;
-  console.log("video", video);
   const trailerKey = video?.key;
-  console.log(trailerKey);
   return (
     <div>
       <iframe

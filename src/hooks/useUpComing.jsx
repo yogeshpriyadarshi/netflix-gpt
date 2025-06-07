@@ -1,16 +1,16 @@
 import { useEffect } from "react";
-import { addNowPlay } from "../utils/moviesSlice";
+import {  addUpComing } from "../utils/moviesSlice";
 import { useDispatch } from "react-redux";
 import { options } from "../utils/constaint";
 
-const useNowPlay = () => {
+const useUpComing = () => {
   const dispatch = useDispatch();
   const fetchapi = async () => {
     try {
-      const URL = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1';
-      const res = await fetch(URL, options)
+        const url = 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1';
+      const res = await fetch(url, options)
       const json = await res.json();
-      dispatch(addNowPlay(json?.results));
+      dispatch(addUpComing(json?.results));
     } catch (err) {
       console.error(err);
     }
@@ -21,4 +21,4 @@ const useNowPlay = () => {
   }, []);
 };
 
-export default useNowPlay;
+export default useUpComing;
