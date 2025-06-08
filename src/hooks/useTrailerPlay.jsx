@@ -3,26 +3,35 @@ import { options } from "../utils/constaint";
 import { useEffect } from "react";
 import { addTrailerPlay } from "../utils/moviesSlice";
 
-const useTrailerPlay = (id)=>{
-    console.log("id trailer",id)
-const dispatch = useDispatch();
-const URL = `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`;
+const useTrailerPlay = (id) => {
+  const dispatch = useDispatch();
 
-const fetchTrailer = async()=>{
-    try{
-        console.log("count!!")
-const res = await fetch(URL, options)
-const json = await res.json();
-const filterTrailer = json?.results?.filter(video => video.type === "Trailer");
-    const number = Math.floor( filterTrailer?.length*Math.random());
-const video = filterTrailer[number];
-dispatch(addTrailerPlay(video));
-    }catch(err){
-console.error(err);
+  const fetchTrailer = async () => {
+    try {
+      console.log("count!!");
+      const URL = `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`;
+      const res = await fetch(URL, options);
+      const json = await res.json();
+      const filterTrailer = json?.results?.filter(
+        (video) => video.type === "Trailer"
+      );
+      const number = Math.floor(filterTrailer?.length * Math.random());
+      const video = filterTrailer[number];
+      dispatch(addTrailerPlay(video));
+    } catch (err) {
+      console.error(err);
     }
-};
+  };
 
-useEffect(()=>{fetchTrailer(),[id]});
-}
+  useEffect(() => {
+      console.log("id trailer", id);
+
+    if (id) {
+          console.log("id trailer in useEffect", id);
+
+      fetchTrailer();
+    }
+  }, [id]);
+};
 
 export default useTrailerPlay;

@@ -34,7 +34,6 @@ const dispatch = useDispatch();
   }, []);
 
   const logoutHandle = () => {
-    console.log("logout");
     signOut(auth)
       .then(() => {
         navigate("/");
