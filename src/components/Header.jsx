@@ -4,8 +4,10 @@ import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
+import { addGptStatus } from "../utils/moviesSlice";
 
 export default function Header() {
+  const gpt = useSelector((store)=> store?.movies?.GptStatus);
   const user = useSelector((store) => store.user);
 const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,7 +66,19 @@ const dispatch = useDispatch();
         )}
 
         {user && (
-          <div className="m-10">
+<>   
+    <div className="m-10">
+            <button
+              className="bg-red-500 text-white px-5 py-2 rounded-2xl cursor-pointer active:bg-blue-500"
+              onClick={() => {
+                dispatch(addGptStatus(!gpt) );
+              }}
+            >
+              { gpt? "home":"GPT"}
+            </button>
+          </div>
+
+    <div className="m-10">
             <button
               className="bg-red-500 text-white px-5 py-2 rounded-2xl cursor-pointer active:bg-blue-500"
               onClick={() => {
@@ -75,6 +89,13 @@ const dispatch = useDispatch();
               Log Out
             </button>
           </div>
+
+
+
+</>
+
+
+      
         )}
       </div>
     </>
