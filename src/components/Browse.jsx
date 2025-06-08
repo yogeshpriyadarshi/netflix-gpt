@@ -1,8 +1,7 @@
-import { useSelector } from 'react-redux';
 import useNowPlay from '../hooks/useNowPlay'
 import Header from './Header'
 import MainContainer from './mainContainer';
-import SubContainer from './subContainer';
+import SubContainer from './SubContainer';
 import usePopularMovies from '../hooks/usePopularMovies';
 import useTopRated from '../hooks/useTopRated';
 import useUpComing from '../hooks/useUpComing';
@@ -13,9 +12,6 @@ usePopularMovies();
 useTopRated();
 useUpComing();
 
- const movies = useSelector(store => store?.movies?.nowPlay);
- if(!movies) return;
-
   return (
     <>
     <Header/>
@@ -23,9 +19,6 @@ useUpComing();
 <MainContainer   />
 
 <SubContainer />
-
-
-
     
     </>
   )

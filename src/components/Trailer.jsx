@@ -1,18 +1,24 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import useTrailerPlay from "../hooks/useTrailerPlay";
-
-export default function Trailer({ id }) {
-  useTrailerPlay(id);
+export default function Trailer() {
+  const [trailerKey, setTrailerKey] = useState("");
   const video = useSelector((store) => store.movies.trailerPlay);
-  if (!video) return;
-  const trailerKey = video?.key;
+
+  const fun = ()=>{
+     if(video){
+      const key = video?.key;
+       setTrailerKey(key);
+     }
+  }
+
+useEffect(()=>{fun()},[video])
+
   return (
     <div>
       <iframe
        className="w-screen h-screen"
         src=  {`https://www.youtube.com/embed/${trailerKey}?si=GJRyz_5KMC14CHyx`}
         title="YouTube video player"
-        frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin"
       ></iframe>

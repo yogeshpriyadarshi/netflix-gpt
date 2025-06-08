@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { baseurl } from '../utils/constaint';
 
 export default function SubContainer() {
   const [ filterMovies, setFilterMovies] = useState("All");
@@ -13,11 +14,6 @@ export default function SubContainer() {
 
 const fun = ()=> {
   if(movies?.length){
-console.log(movies);
-  console.log(" first render :",popularMovies);
-    const length = movies.length;
-console.log("length :", length)
-  const baseurl = 'https://image.tmdb.org/t/p/w200//'
   setPosturl(baseurl + movies?.[count]?.poster_path)
   }
 }
@@ -46,29 +42,21 @@ useEffect( ()=>{
 fun();
 },[count, movies])
 
-
 useEffect( ()=> { 
-
-  console.log("first first render")
   if(!movies.length && popularMovies?.length && upComing?.length && topRated?.length&& nowPlay?.length){
-     console.log("tedt",[...popularMovies,  ...upComing,  ...topRated, ...nowPlay]);
 setMovies( [...popularMovies,  ...upComing,  ...topRated, ...nowPlay]);
   }
-
 },[popularMovies, upComing, topRated, nowPlay] )
 
 
-
   useEffect( ( )=>{  
-console.log("useefeect!")
 
-    if(filterMovies==="Popular")
+    if(filterMovies.includes("Popular"))
     {
       setMovies(popularMovies?popularMovies:[])
 setCount(0);
-    }else if(filterMovies==="Top")
+    }else if(filterMovies.includes("Top"))
     {
-      console.log("top");
       setMovies(topRated?topRated:[]);
 setCount(0);
     }else
@@ -84,26 +72,22 @@ setCount(0);
 
 <div className='flex justify-around mt-5'> 
 <button className='border bg-red-500 py-2 px-5 rounded-2xl active:bg-blue-500' 
-onClick={()=>{setFilterMovies("Popular")} } > Popular Movies </button>
+onClick={()=>{setFilterMovies("Popular Movies")} } > Popular Movies </button>
 <button  className='border bg-red-500 py-2 px-5 rounded-2xl active:bg-blue-500' 
-onClick={()=>{setFilterMovies("Top")} } > Top Rated Movies </button>
+onClick={()=>{setFilterMovies("Top Rated Movies")} } > Top Rated Movies </button>
 <button  className='border bg-red-500 py-2 px-5 rounded-2xl active:bg-blue-500' 
-onClick={()=>{setFilterMovies("Up")} } > Up Coming Movies </button>
+onClick={()=>{setFilterMovies("Up Coming Movies")} } > Up Coming Movies </button>
 </div>
 
 <div className='flex justify-center'> 
   <h1 className='text-5xl my-5'> {filterMovies}  </h1>
 </div>
     <div className='flex justify-between'>
-<div className='flex justify-center items-center'  > <button className='text-5xl' onClick={()=>{limitCount("dec")}  }>   ⏪  </button>  </div>
+<div className='flex justify-center items-center w-1/3'  > <button className='text-5xl' onClick={()=>{limitCount("dec")}  }>   ⏪  </button>  </div>
 {    posturl &&
 <img alt='posterlogo' className='h-1/2' src={posturl} />}
-<div className='flex justify-center items-center'  > <button className='text-5xl'  onClick={()=>{ limitCount("inc")} }>   ⏩  </button>     </div>
+<div className='flex justify-center items-center w-1/3'  > <button className='text-5xl'  onClick={()=>{ limitCount("inc")} }>   ⏩  </button>     </div>
     </div>
-
 </>
-
-
-
   )
 }
