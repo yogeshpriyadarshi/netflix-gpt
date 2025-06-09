@@ -9,6 +9,7 @@ import {
 import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { bgurl } from "../utils/constaint";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -92,9 +93,8 @@ export default function Login() {
     <>
       <Header />
       <div>
-        {/* <img className="h-screen w-screen" src="https://drive.google.com/file/d/1CQqmDUhwnpwvS4gHygweCnDV9-i5kjI4/view?usp=drive_link" /> */}
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/af2fac72-d956-4952-8686-4d45d359d78c/web/IN-en-20250526-TRIFECTA-perspective_5db3e163-56f7-47c7-9a65-b79b9d76bf24_medium.jpg"
+        src ={bgurl}
           alt="background"
           className="h-screen w-screen"
         />

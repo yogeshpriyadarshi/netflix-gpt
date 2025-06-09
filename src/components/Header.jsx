@@ -5,11 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { addGptStatus } from "../utils/moviesSlice";
+import { LANGUAGEOPTION, logourl } from "../utils/constaint";
+import { addLanguage } from "../utils/configSlice";
 
 export default function Header() {
-  const gpt = useSelector((store)=> store?.movies?.GptStatus);
+  const gpt = useSelector((store) => store?.movies?.GptStatus);
   const user = useSelector((store) => store.user);
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,25 +37,22 @@ const dispatch = useDispatch();
     };
   }, []);
 
+  const langHandler = (e)=>{
+dispatch(addLanguage(e.target.value));
+  }
+
   const logoutHandle = () => {
     signOut(auth)
       .then(() => {
         navigate("/");
-        // Sign-out successful.
       })
-      .catch((error) => {
-        // An error happened.
-      });
+      .catch((error) => {});
   };
 
   return (
     <>
-      <div className="fixed top-0  px-8 py-2 w-screen flex justify-between bg-gradient-to-b  from-black">
-        <img
-          className="w-45 "
-          src="https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production/consent/87b6a5c0-0104-4e96-a291-092c11350111/01938dc4-59b3-7bbc-b635-c4131030e85f/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
-          alt="logo"
-        />
+      <div className="fixed top-0 left-0 z-10 px-8 py-2 w-screen flex justify-between bg-gradient-to-b  from-black">
+        <img className="w-45 " src={logourl} alt="logo" />
 
         {user && (
           <div className="m-2 flex ">
@@ -66,36 +65,41 @@ const dispatch = useDispatch();
         )}
 
         {user && (
-<>   
-    <div className="m-10">
-            <button
-              className="bg-red-500 text-white px-5 py-2 rounded-2xl cursor-pointer active:bg-blue-500"
-              onClick={() => {
-                dispatch(addGptStatus(!gpt) );
-              }}
-            >
-              { gpt? "home":"GPT"}
-            </button>
-          </div>
+          <>
+            <div className="m-10">
+              {gpt && (
+                <select className="bg-gray-500 mx-4 text-white rounded-lg h-10" 
+                onChange={langHandler}>
+                  {LANGUAGEOPTION.map((lan) => (
+                    <option key={lan.Val} value={lan.Val} >
+                      {" "}
+                      {lan.Name}{" "}
+                    </option>
+                  ))}
+                </select>
+              )}
+              <button
+                className="bg-red-500 text-white px-5 py-2 rounded-2xl cursor-pointer active:bg-blue-500"
+                onClick={() => {
+                  dispatch(addGptStatus(!gpt));
+                }}
+              >
+                {gpt ? "Home Netflix" : "GPT"}
+              </button>
+            </div>
 
-    <div className="m-10">
-            <button
-              className="bg-red-500 text-white px-5 py-2 rounded-2xl cursor-pointer active:bg-blue-500"
-              onClick={() => {
-                logoutHandle();
-              }}
-            >
-              {" "}
-              Log Out
-            </button>
-          </div>
-
-
-
-</>
-
-
-      
+            <div className="m-10">
+              <button
+                className="bg-red-500 text-white px-5 py-2 rounded-2xl cursor-pointer active:bg-blue-500"
+                onClick={() => {
+                  logoutHandle();
+                }}
+              >
+                {" "}
+                Log Out
+              </button>
+            </div>
+          </>
         )}
       </div>
     </>

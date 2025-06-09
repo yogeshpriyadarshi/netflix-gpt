@@ -8,7 +8,6 @@ const useTrailerPlay = (id) => {
 
   const fetchTrailer = async () => {
     try {
-      console.log("count!!");
       const URL = `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`;
       const res = await fetch(URL, options);
       const json = await res.json();
@@ -24,10 +23,8 @@ const useTrailerPlay = (id) => {
   };
 
   useEffect(() => {
-      console.log("id trailer", id);
 
     if (id) {
-          console.log("id trailer in useEffect", id);
 
       fetchTrailer();
     }

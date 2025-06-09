@@ -1,6 +1,6 @@
 import useNowPlay from '../hooks/useNowPlay'
 import Header from './Header'
-import MainContainer from './mainContainer';
+import MainContainer from './MainContainer';
 import SubContainer from './SubContainer';
 import usePopularMovies from '../hooks/usePopularMovies';
 import useTopRated from '../hooks/useTopRated';
